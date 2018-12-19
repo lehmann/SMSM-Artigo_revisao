@@ -63,8 +63,8 @@
 
 \section{Introduction}
 %--vania revisando
-Trajectory similarity measuring has received significant attention in the last few years, and several measures have been proposed \hl{to deal either with raw trajectories or semantic trajectories}. A \emph{raw trajectory} is generally represented as a sequence of points $T=<p_1, p_2, ...p_n>$, with $p_i=(x_i,y_i,t_i)$ where $x,y$ is the position of the object in space at time instant $t$.  Examples of similarity measures for raw trajectories are LCSS (Longest Common SubSequence) \citep{vlachos2002discovering}, EDR (Edit Distance on Real sequences) \citep{Chen:2005:RFS:1066157.1066213}, NWED (Normalized Weighted Edit Distance) \citep{dodge2012} and UMS (Uncertain Movement Similarity) \citep{Furtado-UMS-2018}. LCSS \citep{vlachos2002discovering} and EDR \citep{Chen:2005:RFS:1066157.1066213} consider the sequence, but they force a match in all dimensions, not allowing partial similarity between trajectory points.  %\hl{Multi-Dimensional Dynamic Time-Warping} (MD-DTW) \cite{ten2007multi} is another approach that is able to handle multiple dimensions. It extends \hl{Dynamic Time-Warping} (DTW) \cite{berndt1994using} in order to find the distance between two sequences by looking for the best contiguous match of elements according to the sum of the distances in all dimensions. The problem of DTW and MD-DTW is that they consider the real distance between the elements, are sensitive to noise, and were developed for numerical attributes, not dealing with semantic information. 
-UMS \citep{Furtado-UMS-2018} is a parameter free method that considers only the spatial dimension, but it outperformed all previous works for raw trajectory similarity.
+Trajectory similarity measuring has received significant attention in the last few years, and several measures have been proposed \hl{to deal either with raw trajectories or semantic trajectories}. A \emph{raw trajectory} is generally represented as a sequence of points $T=<p_1, p_2, ...p_n>$, with $p_i=(x_i,y_i,t_i)$ where $x,y$ is the position of the object in space at time instant $t$.  Examples of similarity measures for raw trajectories are LCSS (Longest Common SubSequence) \citep{vlachos2002discovering}, EDR (Edit Distance on Real sequences) \citep{Chen:2005:RFS:1066157.1066213}, NWED (Normalized Weighted Edit Distance) \citep{dodge2012} and UMS (Uncertain Movement Similarity) \citep{Furtado-UMS-2018}. LCSS \citep{vlachos2002discovering} and EDR \citep{Chen:2005:RFS:1066157.1066213} consider the sequence, but they force a match in all dimensions, not allowing partial similarity between trajectory points.  
+UMS \citep{Furtado-UMS-2018} is a parameter free method that considers only the spatial dimension, and it was developed to deal with data of varied or low sampling rate.
 
 
 Existing works for raw trajectory similarity are limited to the spatio-temporal properties of raw trajectories, basically considering trajectories as objects with only space information or space and time.
@@ -74,8 +74,7 @@ In 2008, emerged the concept of semantic trajectories \citep{Spaccapietra:2008:C
 \hl{The enrichment of trajectories with semantic information is a well studied topic in the literature, and a number of methods have been developed for this purpose, as the works of} \cite{alvares2007model}, \cite{Palma2008}, \cite{manso}, and \cite{fileto2013baquara}. Aplications as DayTag \cite{fernando2013} can detect stops and moves and the user can add the semantics to his/her trajectories. \hl{Examples of semantic information related to the stops can be, for instance, the name of the stop (e.g. Ibis Hotel) and the category (e.g. Hotel, Museum, Restaurant), while the semantic information related to the move could be, for instance, the name of the streets followed by the moving object and the category of the transportation mode. The explosion of social media data, internet channels, and the facility to enrich trajectories with more context information as linked open data, allows the representation of movement in a more meaningful way. From social media data, for instance, a stop at a hotel can be enriched with the information of the number of stars, the price average, evaluation rate, facilities, parking, wifi, etc.  In this paper we assume that semantic trajectories are represented as sequences of stops and moves, as originally defined in }\cite{Spaccapietra:2008:CVT:1347466.1347785}\hl{, and the way how these trajectories are generated or enriched is out of the scope of this paper.}
 
 \hl{Only a few  similarity measures were proposed for semantic trajectories, as } \cite{Kang:2009:SMT:1529282.1529580}, \cite{Liu:2012:SMM:2442968.2442971}, \cite{Ying:2010:MUS:1867699.1867703}, and \cite{Furtado:TGIS12156}\hl{. The main problems of these measures are that they do not address all three dimensions (space, time and semantics), as the works of }\cite{Kang:2009:SMT:1529282.1529580} and \cite{Liu:2012:SMM:2442968.2442971}\hl{; or, 
-they exclusively address the stops, systematically ignoring all information about the moves, as the works of }\cite{Ying:2010:MUS:1867699.1867703} and \cite{Furtado:TGIS12156}\hl{. To the best of our knowledge, none of the existing similarity measures for semantic trajectories have considered both stops and moves. The measure MSM (Multidimensional Similarity Measure) }\citep{Furtado:TGIS12156}\hl{, for instance, considers only the stops, and they are treated as elements that are independent from each other, without considering the order/sequence as they appear in the trajectories. However, MSM ignores the moves between stops. MSM can be used to answer questions like: \emph{how similar are two trajectories $P$ and $Q$ considering their stops?}}
-%In the example shown in Figure {\ref{fig:Paris}}, that shows the trajectories of three tourists visiting the same places (stops S1, S2, S3 and S4) in Paris, MSM would give a similarity degree of 100\%, because the objects visited the same places and MSM ignores the moves.
+they exclusively address the stops, systematically ignoring all information about the moves, as the works of }\cite{Ying:2010:MUS:1867699.1867703} and \cite{Furtado:TGIS12156}\hl{. To the best of our knowledge, none of the existing similarity measures for semantic trajectories have considered both stops and moves. The measure MSM (Multidimensional Similarity Measure) }\citep{Furtado:TGIS12156}\hl{, for instance, considers only the stops, and they are treated as elements that are independent from each other, without considering the order/sequence as they appear in the trajectories. As MSM ignores the moves between stops, it can only be used to answer questions like: \emph{how similar are two trajectories $P$ and $Q$ considering their stops?}}
 
  
 
@@ -91,7 +90,7 @@ they exclusively address the stops, systematically ignoring all information abou
 \end{figure}
 
 
-\hl{To better understand the need for considering both stops and moves in trajectory similarity analysis, let us consider the example in Figure {\ref{fig:Paris}}, for a tourism application, which shows three trajectories of tourists visiting Paris. These tourists visited four places, in this order:  Arc de Triomphe (first stop - S1), Place de la Concorde (second stop - S2), the Louvre Museum (third stop - S3), and the Notre Dame Cathedral (the last stop - S4). The three tourists visited the same places at the same order, but the tourists of trajectories $T2$ (green trajectory) and $T3$ (red trajectory) moved on foot, following the shortest path, while the tourist of trajectory $T1$ used a city tour hop on and hop off bus to appreciate the view. The question we want to answer in this paper is \emph{how similar are trajectories $T1$, $T2$ and $T3$ considering both stops and moves?} From the figure it is clear that trajectories $T2$ and $T3$ are more similar, because they used almost the same paths between stops and moved on foot, while trajectory $T1$ has a completely different move. Now suppose that a tourism manager wants to recommend a trip to a new tourist arriving in Paris, and this new tourist wants to visit the same places visited by the tourists in the figure, but he wants to move on foot and follow the path used by the majority of the tourists.
+\hl{To better understand the need for considering both stops and moves in trajectory similarity analysis, let us consider the example in Figure {\ref{fig:Paris}}, for a tourism application, which shows three trajectories of tourists visiting Paris. These tourists visited four places, in this order:  Arc de Triomphe (first stop - S1), Place de la Concorde (second stop - S2), the Louvre Museum (third stop - S3), and the Notre Dame Cathedral (the last stop - S4). The three tourists visited the same places at the same order, but the tourists of trajectories $T2$ (green trajectory) and $T3$ (red trajectory) moved on foot, following the shortest path, while the tourist of trajectory $T1$ used a city tour hop on and hop off bus to appreciate the view. The question we want to answer in this paper is \emph{how similar are trajectories $T1$, $T2$ and $T3$ considering both stops and moves?} From the figure it is clear that trajectories $T2$ and $T3$ are more similar, because they used almost the same paths between stops and moved on foot, while trajectory $T1$ has a spatially different move, performed with a different transportation mode. Now suppose that a tourism manager wants to recommend a trip to a new tourist arriving in Paris, and this new tourist wants to visit the same places visited by the tourists in the figure, but he wants to move on foot and follow the path used by the majority of the tourists.
 For this case, we need to retrieve trajectories $T2$ and $T3$. 
 %Another example is to calculate the proportion of tourists that visit these four stops moving on foot in order to eventually propose a new hop on hop off tourist bus line.
 Another example is the evaluation of the flow of tourists moving on foot between these four stops in order to eventually propose a new and direct hop on hop off tourist bus line.}
@@ -109,42 +108,32 @@ A real example of an outlier taxi trajectory is shown in Figure {\ref{fig:crawda
 \end{figure}
 
 
-%We claim that for several applications, the moves are as important as the stops, or even more important. Moves carry important information such as the traveled distance from one place to another, the transportation means, the name of the streets followed by the moving object, the average speed, etc. Moves are important for answering semantic queries that involve both stops and moves such as (i) which objects go from a stop A (e.g. city center) to a stop B (e.g. airport) through the same roads? Which is the most popular route from A (e.g. city center) to B (e.g. University x)?}
-
-%Answering this kind of question is important in several applications. In car sharing systems, for instance, the origin and destination of the trip is important, but the path followed between the origin and destination is important as well, in order to find ride intersection. In public transportation systems, both bus stops and streets must be known to propose new bus lines. In traffic management applications, the moves between spatial regions must be used to detect traffic jams.
-
-In all previous examples MSM cannot distinguish the trajectories, because it ignores the moves, and gives a similarity degree of 100\% for the trajectories in both scenarios.
+In all previous examples, MSM cannot distinguish the trajectories, because it ignores the moves, and gives a similarity degree of 100\% for the trajectories in both scenarios.
 Given the need of spatio-temporal similarity measures that consider both stops and moves, in this paper we propose a new semantic trajectory similarity measure that extends MSM, proposed in \cite{Furtado:TGIS12156}, to support both stops and moves. Our approach considers the sequence of the stops, what is not supported by MSM, allows different semantics for the moves, and uses weights to provide importance degrees for stops, moves, and their attributes. 
 In summary, we make the following contributions:
-(i) we propose a new similarity measure for multidimensional sequences treating elements with heterogeneous dimensions, which is the case of stops and moves; (ii) the semantic similarity measure considers both \textit{stops} and \textit{moves}, as well as their space, time, and semantic dimensions, allowing the use of different distance functions for each dimension, making the measure robust for several applications; (iii) the measure is flexible enough to consider the order between stops and to support different weights for stops, moves, and dimensions, allowing to give more or less importance to different trajectory parts; (iv) we evaluate the proposed measure with experiments over synthetic and real data, comparing our proposal to a large number of measures developed for semantic or raw trajectories.
+(i) we propose a new similarity measure for multidimensional sequences treating elements with heterogeneous dimensions, which is the case of stops and moves; (ii) the semantic similarity measure considers both \textit{stops} and \textit{moves}, as well as their space, time, and semantic dimensions, allowing the use of different distance functions for each dimension, making the measure robust for several applications; (iii) the measure is flexible enough to consider the order between stops and to support different weights for stops, moves, and dimensions, allowing to give more or less importance to different trajectory parts; (iv) we evaluate the proposed measure with experiments over synthetic and real data, comparing our proposal to a large number of measures developed either for raw or semantic trajectories.
 
 The rest of this article is organized as follows: Section \ref{sec:related} presents the related works, Section \ref{sec:proposed_measure} presents the proposed similarity measure with a running example, Section \ref{sec:experiments} presents experiments over real \hl{and synthetic} trajectory data, Section \ref{sec:discussion} presents a discussion about the choice of a measure in face of application problems, and Section \ref{sec:conclusions} concludes the article.
 
-%\hl{Similarity measures play a important role in geospatial information systems, as a tool to analyze the closeness of elements. As an example, we can use a public transportation system. To define a creation of a new bus stop some characteristics should be analyzed: (i) the current usage rate of the bus line; (ii) the growth of population in the region; (iii) the usage rate of alternatives transportation means, as car-pooling systems and taxis; (iv) the size and count of important community buildings, as schools, hospitals, public administrative buildings, etc. So, if a bus line has as characteristic a lower usage rate and near of it occurs a higher usage of other transportation means as car-pooling or taxi, it is expected that the creation of a bus stop will rise the usage rate of buses at the expense of car use. It can reduce traffic jams in the region, it may reduce the air pollution in the city, in addition of being more financially advantageous for passengers. But to define exactly where the bus stops should be created, first of all it is necessary to find out which bus lines cover the region and which are the bus stops shared between them. We use the bus stops as the \emph{stops} and the street names as the \emph{moves} in the stop and move model. After modeling our semantic trajectories, we can find the best place to put a new bus stop by finding a \emph{move} which can be split in two segments, creating a \emph{stop} (the new bus stop) between them. If this new simulated trajectory is more similar to original trajectories, it indicates that the bus line will be slightly changed, having little impact on the mesh of bus lines as a whole.}
-
-
-
 
 \section{Related works} \label{sec:related}
-Along the last years, many similarity measures for trajectories were proposed, focusing on raw trajectories, which find the similarity between two trajectories considering spatial and temporal information. \cite{vlachos2002discovering} proposed LCSS, a measure in which two points \textit{match} when their distance is less than a given threshold. The longer the common subsequence of matches between two trajectories, the more similar they are.
+Along the last years, many similarity measures for trajectories were proposed focusing on raw trajectories, which find the similarity between two trajectories considering spatial and temporal information. \cite{vlachos2002discovering} proposed LCSS, a measure in which two points \textit{match} when their distance is less than a given threshold. The longer the common subsequence of matches between two trajectories, the more similar they are.
 
-\hl{Edit Distance with Real Penalty (ERP) was proposed for time series in }\cite{Chen:2004:MLE:1316689.1316758}\hl{.  It is a marriage of L1-norm and the edit distance. ERP uses real penalty between two non-gap elements, but a constant value for computing the distance for gaps. 
-%It computes the distance between two sequences of points by aligning the sequences in a $L_p$-norm space and uses a $L_p$-norm distance function to compute the similarity of sequences. 
-As it computes the distance based on the absolute distance, ERP is affected by noisy points in the sequences.} \cite{Chen:2005:RFS:1066157.1066213} proposed EDR, a similarity measure for raw trajectories that calculates the edition difference between the points, as classical edit distance measures. Another measure for raw trajectories is \hl{w-constrained discrete Frechet distance} (wDF) \citep{Ding:2008:ESJ:1440463.1440989}, that considers only the spatial dimension. 
+\hl{Edit Distance with Real Penalty (ERP) is a distance function proposed for time series in }\cite{Chen:2004:MLE:1316689.1316758}.\hl{ It  computes the distance between two sequences of points by aligning the sequences, allowing gaps in the sequence when there are points that do not match. The gaps are penalized based on the distance of the unmatched points.}
+\cite{Chen:2005:RFS:1066157.1066213} proposed EDR, a similarity measure for raw trajectories that calculates the edition difference between the points, as classical edit distance measures. Another measure for raw trajectories is \hl{w-constrained discrete Frechet distance} (wDF) \citep{Ding:2008:ESJ:1440463.1440989}, that considers only the spatial dimension.
 
 LCSS and EDR have not been proposed for semantic trajectories, but both measures can be easily extended to handle other dimensions (e.g. semantics). However, that extensibility does not allow the measures to represent semantic trajectories as a sequence of heterogeneous elements, that is the case of stops and moves, because both LCSS and EDR demand that all trajectory elements should be homogeneous.
 
 The distance measure Dynamic Time-Warping adaptive (DTWa) proposed in \cite{Shokoohi-Yekta2017} extends the classical \hl{Dynamic Time-Warping} (DTW) \citep{berndt1994using} distance measure to multiple data dimensions. The problem of DTWa is that it deals with numeric dimensions only, and it is a distance function, not a similarity measure.
 
-\hl{UMS was proposed in }\cite{Furtado-UMS-2018}\hl{ as a new parameter-free similarity measure for raw trajectories. UMS was designed exclusively for raw trajectories, considering only the spatial dimension. The major contribution of UMS is that no distance threshold is needed, and the distance between two trajectories is computed with ellipses over every two trajectory points, so trajectories are represented as sequences of ellipses. The similarity is given by the proportion of ellipse intersection. As the ellipses are dynamically defined according to the point distance, UMS solves the problem of trajectories with distinct or varied sampling rates, by computing each ellipse size as big as necessary to cover two consecutive points. UMS outperformed all state-of-the-art works for raw trajectories developed before 2018, so it is currently the best similarity measure for raw trajectories where the spatial dimension is the most important.}
+\hl{UMS was proposed in }\cite{Furtado-UMS-2018}\hl{ as a new parameter-free similarity measure for raw trajectories. UMS was designed exclusively for raw trajectories, considering only the spatial dimension. The major contribution of UMS is that no distance threshold is needed, and the distance between two trajectories is computed with ellipses over every two trajectory points, so trajectories are represented as sequences of ellipses. The similarity is given by the proportion of ellipse intersection. As the ellipses are dynamically defined according to the point distance, UMS solves the problem of trajectories with distinct or varied sampling rates, by computing each ellipse size as big as necessary to cover two consecutive points.}
 
-%\hl{Distinctly of the raw points measures, in the work of }\cite{Laube2005}\hl{ a raw trajectory is analyzed through the derived features of the movement, such as speed changing, momentous speed and others. The main purpose of work of Laube is to define a few behavior patterns in raw trajectories and find spatial encounters in respect to these behaviors. Using the REMO concept (RElative MOtion), it approach has as constraint that analyzed trajectories must be synchronized in time. This is not the case in real life trajectories of persons or regular vehicles, since each moving object (person, vehicles, etc) starts its movement independently each other, limiting it uses for some specific contexts, such as birds migration, wildlife monitoring, etc. In a similar way, the work proposed in } \cite{Shirabe2006}\hl{ shows that a strong correlation of motion features can help to find a linear correlation between trajectories in raw trajectory datasets. A drawback of the approach is the inability to consider the spatial and temporal location of each point. In other words, the trajectories are analyzed only by their behavior and not by their discrete points.}
 
 The Common Visit Time Interval (CVTI) is proposed in \cite{Kang:2009:SMT:1529282.1529580} as a measure to integrate the semantic dimension of the stops with the temporal dimension. Although using different data dimensions, the measure is not extensible for other dimensions associated with the point, not allowing heterogeneous data such as stops and moves to be modeled and measured together.
 
 In \cite{Ying:2010:MUS:1867699.1867703} the measure \hl{Maximal Semantic Trajectory Pattern} (MSTP) is proposed, which despite being a measure for semantic trajectories, it is not able to handle multiple data dimensions. Moreover, as MSTP essentially works with the frequency at which stops are visited, it is not able to consider moves between stops.
 
-In the work of \cite{Furtado:TGIS12156}, the MSM measure is proposed to multidimensional similarity measuring, and it is so far, the best similarity measure for semantic trajectories. In MSM all elements must be homogeneous, not allowing the representation of heterogeneous elements as stops and moves. MSM is more robust than LCSS and EDR by allowing partial dimension matching and not forcing a sequence. MSM was developed to work only with stops, and the sequence of elements is not taken into account during the similarity calculation, ignoring the order of the stops. We claim that for some applications as car sharing, new bus route planning, traffic analysis, and recommendation systems, the sequence of stops may play an important role.
+In the work of \cite{Furtado:TGIS12156}, the MSM measure is proposed to multidimensional similarity measuring. In MSM all elements must be homogeneous, not allowing the representation of heterogeneous elements as stops and moves. MSM is more robust than LCSS and EDR by allowing partial dimension matching and not forcing a sequence. MSM was developed to work only with stops, and the sequence of elements is not taken into account during the similarity calculation, ignoring the order of the stops. We claim that for some applications as car sharing, new bus route planning, traffic analysis, and recommendation systems, the sequence of stops may play an important role.
 
 %=====================================================================================
 %======================================================================================
@@ -242,7 +231,7 @@ The function \emph{matchStops(a,b)} is true when the \hl{spatial distance} betwe
 %\hl{Differences among the three movement elements rely exclusively on the differences of the move. On the other hand, the difference of these movement elements to movement element $<A, P_4, C>$ is more evident, since if it end stop is distinct, the move is distinct too. Based on this, SMSM do not compare the move of $<A, P_4, C>$ with the others movement element.}
 
 \hl{The function \emph{scoreMove()} guarantees a partial order in the similarity analysis. %, what has not been considered by MSM, which is the closest measure to our approach, but that considers only stops and without any order. Considering that the four movement elements in Figure {\ref{fig:move}} belong to four different trajectories, MSM would give the same similarity for the parts of the trajectories going from $A$ to $B$, because it does not look the moves, and 50\% similarity with the trajectory going from $A$ to $C$ because they share 50\% of the stops.
-Suppose the example in  Figure {\ref{fig:move}} is a real scenario, where $A$, $B$, and $C$ represent  places as France, Italy, and Spain, respectively. We believe that the three trajectories going from France ($A$) to Italy ($B$) must have their move analyzed because they visit the same sequence of places, while the trajectory that goes from France ($A$) to Spain ($C$) does not share the same destination, so the move of this trajectory is not compared with the others, and the function $scoreMove()$ has values zero.}
+Suppose the example in  Figure {\ref{fig:move}} is a real scenario, where $A$, $B$, and $C$ represent  places as France, Italy, and Spain, respectively. We believe that the three trajectories going from France ($A$) to Italy ($B$) must have their move analyzed because they visit the same sequence of places, while the trajectory that goes from France ($A$) to Spain ($C$) does not share the same destination, so the move of this trajectory is not compared with the others, and the function $scoreMove()$ has value zero.}
 
 
 
@@ -478,8 +467,8 @@ As several measures were not developed for semantic trajectories, for a more fai
 \hl{Table {\ref{tab:new_san_francisco_thresholds}} shows the  thresholds used for each measure. To define threshold values for the stops we experimented  a range of values on each dimension as follows: for space (distance between stop centroids) we varied the distance from 100 meters to 500 meters in a 100 meters range; and for the time distance we tested a proportion of intersection from 0\% to 100\% varying in ranges of 10 \%. For the move threshold we varied the UMS similarity for two moves from 0 to 1 in a 0.1 unit step.
 
 Table {\ref{tab:new_sanfrancisco_measures_map_auc}} shows the comparison of SMSM with approaches developed either for raw or semantic trajectories.
-For semantic trajectories, SMSM (MAP=0.84) outperformed the other measures in 50\% or more. This occurs because state-of-the-art measures do not take into account the move between two stops or consider only stops. We may notice that the second best measure for semantic trajectories is MSM, but it reaches only 39\% of precision. This shows that MSM is not robust when considering both stop and move similarity, because MSM cannot deal with moves. 
-For raw trajectories, SMSM (MAP=0.84) was around 35 \% better than UMS (MAP=0.62) and DTWa (MAP=0.61), that were the most accurate measures apart from SMSM. Both UMS and DTWa perform  worse than SMSM because on the contraty to MSM, they consider only raw trajectories, and cannot deal with stops and their semantics.}
+For semantic trajectories, SMSM (MAP=0.84) outperformed the other measures in 50\% or more. This occurs because state-of-the-art measures do not take into account the move between two stops or consider only stops. We may notice that the second best measure for semantic trajectories is MSM, but it reaches only 39\% of precision. This shows that MSM is not robust when considering both stop and move similarity, because MSM cannot deal with moves and does not distinguish the order of the stops, i.e., the direction of the trajectories. 
+For raw trajectories, SMSM (MAP=0.84) was 27 \% better than UMS (MAP=0.62) and DTWa (MAP=0.61), that were the most accurate measures apart from SMSM. Both UMS and DTWa perform  worse than SMSM because on the contraty to MSM, they consider only raw trajectories, and cannot deal with stops and their semantics.}
 
 \begin{table}[!h]
 \scriptsize
@@ -526,7 +515,7 @@ CVTI & 0.28 & 0.32 & - & - \\
 \end{table}
 
 
-Figure \ref{fig:new_sanfrancisco_precision_recall} (left) and Figure \ref{fig:new_sanfrancisco_precision_recall} (right) \hl{summarize the results of \emph{precision at recall}  of all similarity measures. On the left, SMSM was better to recover trajectories of the same class than the other methods in almost all recall levels, being around  60\% more precise than  state-of-the-art measures. On the right, we may notice that the measures developed for raw trajectories performed well, because the trajectories of the different classes are basically discriminated by the moves, characterized by the trajectory raw points.}
+Figure \ref{fig:new_sanfrancisco_precision_recall} (left) and Figure \ref{fig:new_sanfrancisco_precision_recall} (right) \hl{summarize the results of \emph{precision at recall}  of all similarity measures. On the left, SMSM was better to recover trajectories of the same class than the other methods in almost all recall levels, being around  60\% more precise than  state-of-the-art measures. On the right, we may notice that the measures developed for raw trajectories performed well, because the trajectories of the different classes are partially discriminated by the moves, characterized by the trajectory raw points. These measures do not perform better because they ignore the semantic dimensions and the stops.}
 
 
 \begin{figure*}[ht!]
@@ -553,18 +542,18 @@ The Geolife is a well-known trajectory dataset, created by Microsoft Research As
 \includegraphics[width=.5\textwidth]{Images/new_Geolife-Trajectories-painted.jpg}
 \includegraphics[width=.5\textwidth]{Images/Geolife-Paths-painted.jpg}
 }
-\caption{(left) \textcolor{Red}{all trajectories moving between the five regions, where the red points are the ground truth trajectories and the light blue points are the remaining trajectories.} (right) zoom over the ground truth trajectories moving between Park and Dormitory}
+\caption{(left) All trajectories moving between the five regions, where the red points are the ground truth trajectories and the light blue points are the remaining trajectories. (right) zoom over the ground truth trajectories moving between Park and Dormitory to observe their moves}
 \label{fig:geolife_map_rois}
 \end{figure}
 
 
 \subsubsection{Ground Truth Definition}
 \hl{As in the previous experiment, the Geolife dataset has no ground truth for evaluating similarity measures, so we had to generate a ground truth. We had to find stops where the objects make different moves between the stops in order to distinguish the trajectories.}
-To build the ground truth, we chose an area in Beijing, where pedestrians move between the University Dormitories and Microsoft Research Office. We considered five places as stops (Microsoft, Starbucks, Market, Park and Dormitory), that are show in Figure \ref{fig:geolife_map_rois} (left). \textcolor{Red}{We selected $1976$ trajectories that pass over two or more of these places. Among the $1976$ trajectories we defined as ground truth the $337$ trajectories that go from Microsoft to Dormitory (and vice versa) passing by Park and Market or Starbucks.} We considered 5 distinct paths connecting the stops, labeled as A, B, C, D, and E, as shown in Figure \ref{fig:geolife_map_rois} (right).
+To build the ground truth, we chose an area in Beijing, where pedestrians move between the University Dormitories and Microsoft Research Office. We considered five places as stops (Microsoft, Starbucks, Market, Park and Dormitory), that are show in Figure \ref{fig:geolife_map_rois} (left). \hl{We selected $1976$ trajectories that pass over two or more of these places. Among the $1976$ trajectories we defined as ground truth the $337$ trajectories that go from Microsoft to Dormitory (and vice versa) passing by Park and Market or Starbucks.} We considered 5 distinct paths connecting the stops, labeled as A, B, C, D, and E, as shown in Figure \ref{fig:geolife_map_rois} (right).
 
 In Table \ref{tab:geolife_dataset} we define as ground truth 8 distinct classes of movement based on the sequence of stops and the followed path: Microsoft to Dormitory via Market and Park by path A with 5 trajectories named as class A, Microsoft to Dormitory via Market and Park by path B with 40 trajectories named as class B, Dormitory to Microsoft via Park and Starbucks by path C with 11 trajectories named as class C, Dormitory to Microsoft via Park and Starbucks by path D with 115 trajectories named as class D1, Dormitory to Microsoft via Park and Market by path D with 7 trajectories named as class D2, Microsoft to Dormitory via Market and Park by path D with 149 trajectories named as class D3, Microsoft to Dormitory via Starbucks and Park by path D with 6 trajectories named as class D4 and Microsoft to Dormitory via Market and Park by path E with 4 trajectories named as class E.
 
-It is worth mentioning that this experiment, similar to the previous one, the moves are characterized by the raw trajectory point.
+It is worth mentioning that in this experiment, similar to the previous one, the moves are characterized by the raw trajectory points.
 
 \begin{table}[ht!]
 \scriptsize
@@ -583,16 +572,16 @@ Microsoft to Dormitory via Starbucks and Park& D & 6&D4 \\
 Microsoft to Dormitory via Market and Park& E & 4& E \\
     \hline
   \end{tabular}
-  \caption{Classes representing distinct paths for the ground truth}
+  \caption{Classes representing distinct paths of the ground truth}
   \label{tab:geolife_dataset}
 \end{table}
 
 \subsubsection{Results with the Geolife dataset}
 
-Following a similar methodology used for the previous experiment, we calculate the precision at recall for all 8 classes in the ground truth, comparing the SMSM results to the other measures. The dimensions used for stops are: a) space; and b) the region name (Dormitory, Park, Starbucks, Market and Microsoft). For the moves we used the raw points of the move. The time dimension was not taken into account because in this experiment we have classes with a few trajectories and most of them do not match in time.
+Following a similar methodology used for the previous experiment, we calculate the precision at recall for all classes in the ground truth (8), comparing the SMSM results to the other measures. The dimensions used for stops are: a) space; and b) the region name (Dormitory, Park, Starbucks, Market and Microsoft). For the moves we used the raw points of the move. The time dimension was not taken into account because in this experiment we have classes with a few trajectories and most of them do not match in time.
 
 For measuring the stop similarity we use: (i) the Euclidean distance for space; and (ii) 1 and 0 for the semantics in case of exact match or no match, respectively. For the moves,  we consider the raw trajectory points. In this experiment we use DTW distance for analyzing the spatial similarity of the moves, because the trajectory points are highly sampled \hl{and trajectory points are very near in space}. %, and UMS is not a good measure when points are highly sampled as in the Geolife dataset, so not distinguishing the different paths.
-For this dataset UMS is not good for distinguishing the moves\hl{, since it was developed for irregular sampling}. For the weight, we use 0.5 for stops and 0.5 for moves, giving the same importance, and for the dimensions, we use 0.5 for space and 0.5 for semantics.
+For this dataset UMS is not the best measure for distinguishing the moves\hl{, since it was developed for irregular sampling}. For the weight, we use 0.5 for stops and 0.5 for moves, giving the same importance, and for the dimensions, we use 0.5 for space and 0.5 for semantics.
 
 Table \ref{tab:geolife_thresholds} presents the thresholds used for each measure. We defined the thresholds by running each experiment over a range of possible threshold values and the best results for each method were reported. For raw trajectories, we evaluated as threshold the  values 2, 4, 6, 8 and 10 meters because this dataset is highly sampled and is of pedestrian trajectories. The threshold for the move dimension was defined as follows: two moves are said to match if the DTW distance between them is less than the sum of the Euclidean distance of the moves.
 
@@ -615,10 +604,8 @@ Table \ref{tab:geolife_thresholds} presents the thresholds used for each measure
   \label{tab:geolife_thresholds}
 \end{table}
 
-Table \ref{tab:geolife_measures_map_auc} shows the experimental results.  \hl{SMSM outperforms all measures for semantic trajectories, being significantly better than MSM, which ignores the moves and the sequence of stops, so it is not able to distinguish trajectories that move in the opposite direction. On the other hand, EDR performs better than MSM because it considers the sequence, and the order of the stops distinguishes the classes. The measures for raw trajectories perform very well because of the low number of stops in this dataset and because the raw trajectories are similar in terms of space, and the classes were build based on the moves spatial similarity, so benefiting DTWa, LCSS, and EDR. }
-%Table \ref{tab:geolife_measures_map_auc} shows the experimental results. As can be observed in the table, SMSM outperforms all other measures for raw or semantic trajectories. SMSM was significantly better than MSM, LCSS, and EDR over semantic trajectories. \hl{For this dataset, DTWa, LCSS, and EDR performed well over raw trajectories, but still the MAP score of SMSM (0.95) using only the semantic trajectories was greater than other measures.}
+Table \ref{tab:geolife_measures_map_auc} shows the experimental results.  \hl{SMSM (MAP=0.94) outperforms all measures for semantic trajectories, being significantly better than MSM (MAP=0.66), which ignores the moves and the sequence of stops, so it is not able to distinguish trajectories that move in the opposite direction. On the other hand, EDR (MAP=0.72) performs better than MSM because it considers the sequence, and the order of the stops distinguishes the classes. The measures for raw trajectories perform very well because of the low number of stops in this dataset and because the raw trajectories are similar in terms of space, and the classes were build based on the moves spatial similarity, so benefiting DTWa (MAP=0.92), LCSS (MAP=0.81), and EDR (MAP=0.81). }
 
-%The 1st and 2nd columns of Table \ref{tab:geolife_measures_map_auc} show that SMSM results for MAP and AUC (0.95/0.95) were higher than MSM, LCSS, EDR (0.74/0.75), CVTI (0.53/0.57), and MSTP (0.50/0.53). The bad results of all other measures show that the moves discriminate the trajectories, since any other measures does not consider the moves. For semantic trajectories MSM, LCSS, and EDR perform very similarly. %In addition, executing the experiment using raw trajectories (3rd and 4rd columns in Table \ref{tab:geolife_measures_map_auc}), the results of DTWa (0.86/0.87), UMS (0.84/0.85), LCSS (0.79/0.80), EDR (0.71/0.73), and wDF (0.57/0.60) did not reach the good results of SMSM.
 
 \begin{table}[ht!]
   \scriptsize
@@ -630,12 +617,12 @@ Table \ref{tab:geolife_measures_map_auc} shows the experimental results.  \hl{SM
  & MAP & AUC & MAP & AUC\\
   	\hline
 SMSM & \textbf{0.94} & \textbf{0.95} & - & -\\
-DTWa & - & - & 0.90 & 0.91\\
-LCSS & 0.27 & 0.30 & 0.79 & 0.81\\
- EDR & 0.72 & 0.73 & 0.78 & 0.81\\
- UMS & - & - & 0.71 & 0.73\\
+DTWa & - & - & 0.92 & 0.93\\
+ EDR & 0.72 & 0.73 & 0.81 & 0.83\\
+LCSS & 0.27 & 0.30 & 0.81 & 0.83\\
+ UMS & - & - & 0.70 & 0.73\\
  MSM & 0.66 & 0.68 & - & -\\
- wDF & - & - & 0.51 & 0.55\\
+ wDF & - & - & 0.54 & 0.58\\
 CVTI & 0.30 & 0.34 & - & -\\
 MSTP & 0.28 & 0.32 & - & -\\
     \hline
@@ -671,33 +658,10 @@ MSTP & 0.41 & 0.44 & - & -\\
 \end{table}
 \end{comment}
 
-%\begin{table}[ht!]
-%  \scriptsize
-%  \centering
-%  \begin{tabular}{|l|c|c|c|c|}
-%  	\hline
-% & \multicolumn{2}{c}{Semantic}& \multicolumn{2}{|c|}{Raw}\\
-% 	\cline{2-5}
-% & MAP & AUC & MAP & AUC\\
-%  	\hline
-%SMSM & \textbf{0.95} & \textbf{0.95} & - & -\\
-%DTWa & - & - & 0.86 & 0.87\\
-%LCSS & 0.74 & 0.75 & 0.85 & 0.86\\
-% UMS & - & - & 0.84 & 0.85\\
-% EDR & 0.74 & 0.75 & 0.71 & 0.73\\
-% MSM & 0.74 & 0.75 & - & -\\
-% wDF & - & - & 0.57 & 0.60\\
-%CVTI & 0.53 & 0.57 & - & -\\
-%MSTP & 0.50 & 0.53 & - & -\\
-%    \hline
-%  \end{tabular}
-%  \caption{(old results) MAP and AUC evaluation for the experiment with the Geolife dataset}
-%  \label{tab:geolife_measures_map_auc_antigo}
-%\end{table}
 
 
-\hl{Figure {\ref{fig:geolife_precision_recall}} shows the precision at recall results. Figure {\ref{fig:geolife_precision_recall}} (left) shows that SMSM was better to recover semantic trajectories of the same class in all recall levels. Figure {\ref{fig:geolife_precision_recall}} (right) shows that all measures, except wDF, performed well, but  the closest results to SMSM were achieved with DTWa.}
-%\hl{Figure {\ref{fig:geolife_precision_recall}} shows the precision at recall levels, where SMSM had the best results over all other measures developed for either semantic (left) or raw (right) trajectories. Figure {\ref{fig:geolife_precision_recall}} (left)  shows that SMSM was better to recover semantic trajectories of the same class in almost all recall levels. LCSS and EDR had worse results than SMSM because these measures do not take into account the \emph{move} element between the \emph{stops}. The results were not worst because the measures take into account the sequence of \emph{stops}. Even without considering both the \emph{moves} and the sequence of \emph{stops}, MSM had a similar precision at recall curve. This occurs because spatial and semantics values of the \emph{stops} are strongly related (e.g. all \emph{stops} of Dormitory POI have same spatial coordinate). If the \emph{stops} occur in distinct spatial locations, but remaining the POI name, MSM would score as similar two \emph{stops} spatially near, but semantically distinct, affecting the precision at recall results. MSTP and CVTI, as LCSS-based measures with constraints, have the same problems of the taxi experiment: i) CVTI does not take into account the spatial dimension, and in this dataset the semantic dimension are closely related to spatial dimension; and ii) MSTP makes use of the frequency of the \emph{stops}, and all trajectories in this dataset are short and non-repetitive trajectories, demanding the measure to use only the spatial data of each \emph{stop}. Figure {\ref{fig:geolife_precision_recall}} (right) shows that all measures, except wDF performed well, but SMSM is better to recover trajectories of same class in all recall levels. }
+\hl{Figure {\ref{fig:geolife_precision_recall}} shows the precision at recall results. Figure {\ref{fig:geolife_precision_recall}} (left) shows that SMSM was better to recover semantic trajectories of the same class in all recall levels, while Figure {\ref{fig:geolife_precision_recall}} (right) shows that all measures developed for raw trajectories, except wDF, performed well, but  the closest results to SMSM were achieved with DTWa.}
+
 
 \begin{figure*}[ht!]
 \centerline{
@@ -735,12 +699,14 @@ MSTP & 0.41 & 0.44 & - & -\\
 %In summary, what is shown in Table \ref{tab:geolife_similaritymeans} is that state-of-the-art measures give very low scores for multidimensional trajectories that follow very similar paths.
 
 \subsection{Synthetic Dataset Experiment}\label{sec:hermoupolis}
-The Hermoupolis trajectory generator \citep{Pelekis-Hermoupolis} allows to create trajectories based on pre-defined profiles. It generates semantic trajectories where both \emph{stops} and \emph{moves} are semantically enriched with annotations defined by the user. Therefore, it is possible to enrich the \emph{moves} between the \emph{stops} with semantic information, such as the transportation mean, the activity performed during the \emph{move}, the name of the streets, etc. Hermoupolis has several parameters to simulate real trajectories, such as the definition of the average time of the moving object at each \emph{stop}, the standard deviation of the time of each \emph{stop}, the speed of the moves, sampling rate, and so on. We generated \hl{440} trajectories with several stops and moves, using as semantics of the \emph{stops} the POI category and the activity performed at the \emph{stop}. For the moves we generated the raw points with the following attributes:(i) the transportation mode; (ii) the activity performed during the \emph{move}; (iii) the traveled distance; (iv) the average speed; and (v) the duration of the move.
+\hl{The objective of this experiment with synthetic data is to evaluate trajectory similarity considering trajectories with different number of stops and the semantic dimensions of the moves, instead of the raw points (that were evaluated in the previous experiments).}
 
-There are two main differences of this experiment in relation to the previous ones: (i) the trajectories of the ground truth have a different number of stops and (ii) the moves have several and heterogeneous dimensions.
+\hl{We generate the trajectories with the  Hermoupolis trajectory generator} \citep{Pelekis-Hermoupolis}\hl{, that allows creating trajectories based on pre-defined profiles. It generates semantic trajectories where both \emph{stops} and \emph{moves} are semantically enriched with annotations defined by the user. Therefore, it is possible to enrich the \emph{moves} between the \emph{stops} with semantic information, such as the transportation mean, the activity performed during the \emph{move}, the name of the streets, etc. Hermoupolis has several parameters to simulate real trajectories, such as the definition of the average time of the moving object at each \emph{stop}, the standard deviation of the time of each \emph{stop}, the speed of the moves, sampling rate, and so on. We generated 440 trajectories with several stops and moves, using as semantics of the \emph{stops} the POI category and the activity performed at the \emph{stop}. For the moves we generated the raw points with the following attributes:(i) the transportation mode; (ii) the activity performed during the \emph{move}; (iii) the traveled distance; (iv) the average speed; and (v) the duration of the move.}
+
+\hl{There are two main differences of this experiment in relation to the previous ones: (i) the trajectories of the ground truth have a different number of stops and (ii) the moves have several and heterogeneous dimensions.}
 
 \subsubsection{Ground Truth Definition}
-In this experiment we defined two classes, summarized in Table \ref{tab:hermoupolis_dataset}: (i) students with a job (80 trajectories); and (ii) students without a job (60 trajectories). What distinguishes the classes in this experiment is not the followed paths, but mainly the time and the duration  of the stops, as well as the transportation mode and the activity performed during the move. Besides the 140 trajectories of the ground truth, we generated 300 other trajectories in the same area, with distinct behaviors, to make the retrieval task more challenging.
+\hl{In this experiment we defined two classes, summarized in Table {\ref{tab:hermoupolis_dataset}}: (i) students with a job (80 trajectories); and (ii) students without a job (60 trajectories). What distinguishes the classes in this experiment is not the followed paths, but mainly the time and the duration  of the stops, as well as the transportation mode and the activity performed during the move. Besides the 140 trajectories of the ground truth, we generated 300 other trajectories in the same area, with distinct behaviors, to make the retrieval task more challenging.}
 
 \begin{table}[ht!]
 \scriptsize
@@ -786,8 +752,8 @@ P7 & Home/Gym/Restaurant B/Univ/Restaurant/Univ/Home & Car & Only student \\
 \end{comment}
 
 
-Figure \ref{fig:hermoupolis_groundtruth} (left) shows the generated trajectories, where the points in blue are the trajectories of the ground truth, while the brown points represent the remaining trajectories of the dataset. Some stops are Home, University, Supermarket, Restaurant, Bar, Mall, etc.
-Figure \ref{fig:hermoupolis_groundtruth} (right) shows the trajectories of the ground truth.
+\hl{Figure {\ref{fig:hermoupolis_groundtruth}} (left) shows the generated trajectories, where the points in blue are the trajectories of the ground truth, while the brown points represent the remaining trajectories of the dataset. Some stops are Home, University, Supermarket, Restaurant, Bar, Mall, etc.
+Figure {\ref{fig:hermoupolis_groundtruth}} (right) shows the trajectories of the ground truth.}
 
 \begin{figure*}[ht!]
 \centerline{
@@ -795,15 +761,14 @@ Figure \ref{fig:hermoupolis_groundtruth} (right) shows the trajectories of the g
 \includegraphics[width=.5\textwidth]{Images/Hermoupolis-RawPoints.jpg}
 \includegraphics[width=.5\textwidth]{Images/Hermoupolis-CommercialCenter.jpg}
 }
-\caption{(left) Hermoupolis generated trajectories \textcolor{Red}{ in red (ground truth) and light blue (remaining)} and (right) Ground truth trajectories in green \textcolor{Red}{(student worker)} and blue \textcolor{Red}{(only student)}.}
+\caption{(left) Hermoupolis generated trajectories in red (ground truth) and light blue (remaining) and (right) Ground truth trajectories in green (student worker) and blue (only student).}
 \label{fig:hermoupolis_groundtruth}
 \end{figure*}
 
 \subsubsection{Results with the synthetic dataset}
-Following the methodology used in the previous experiments, we calculate the precision at recall for the two classes in the ground truth, comparing the results of SMSM with the other measures. The dimensions used for the \emph{stops} are: a) the spatial centroid of the \emph{stop}; b) the duration of the \emph{stop}; and c) the \emph{stop} name (Home, Mall, University, etc). For the \emph{moves} we used several dimensions, including  the transportation mode, the activity performed during the move, the traveled distance, average speed, and  duration.
+\hl{Following the methodology used in the previous experiments, we calculate the precision at recall for the two classes in the ground truth, comparing the results of SMSM with the other measures. The dimensions used for the \emph{stops} are: a) the spatial centroid of the \emph{stop}; b) the duration of the \emph{stop}; and c) the \emph{stop} name (Home, Mall, University, etc). For the \emph{moves} we used several dimensions, including  the transportation mode, the activity performed during the move, the traveled distance, average speed, and duration.}
 
-
-For measuring the \emph{stops} similarity, we use: (i) the Euclidean distance for space; (ii) the proportion of the intersection between the time intervals of two \emph{stops}, as given by Equation \ref{func:time_interval}; and (iii) 1 for the semantics in case of exact match and 0 for no match. For the \emph{moves}, the transportation mode and activity have  similarity as 1 in the case of exact match and 0 otherwise. The weights for the \emph{stops} and the \emph{moves} are the same ($0.5$), and $0.33$ for of the  dimensions space, time, and semantics. The thresholds used for each measure are shown in Table \ref{tab:hermoupolis_thresholds}.  As in the previous experiments, we define the thresholds for each dimension after we have experienced a range of values in each dimension (space and time), and the best results are reported for each measure.
+\hl{For measuring the \emph{stops} similarity, we use: (i) the Euclidean distance for space; (ii) the proportion of the intersection between the time intervals of two \emph{stops}, as given by Equation {\ref{func:time_interval}}; and (iii) 1 for the semantics in case of exact match and 0 for no match. For the \emph{moves}, the transportation mode and activity have  similarity as 1 in the case of exact match and 0 otherwise. The weights for the \emph{stops} and the \emph{moves} are the same ($0.5$), and $0.33$ for of the  dimensions space, time, and semantics. The thresholds used for each measure are shown in Table {\ref{tab:hermoupolis_thresholds}}.  As in the previous experiments, we define the thresholds for each dimension after having experienced a range of values in each dimension (space and time), and the best results are reported for each measure.}
 
 \begin{table}[!h]
 \scriptsize
@@ -820,11 +785,11 @@ For measuring the \emph{stops} similarity, we use: (i) the Euclidean distance fo
  EDR & 100 & 0.2 & 8 \\
     \hline
   \end{tabular}
-  \caption{Thresholds used for each measure}
+  \caption{Spatial and temporal thresholds used for each measure}
   \label{tab:hermoupolis_thresholds}
 \end{table}
 
-Table \ref{tab:hermoupolis_measures_map_auc} presents the experimental results, in which we tested SMSM with several  attributes over the moves, and the best results where achieved with the dimensions transportation mode and activity. Comparing with measures for semantic trajectories, SMSM was around 14\% more precise than LCSS (0.82), EDR (0.82) and MSM (0.81). The other measures for semantic trajectories had worse results, with MAP scores of 0.40 and 0.33 for MSTP and CVTI, respectively. As can be noticed in the results,  SMSM did not performed well for the dimensions duration, average speed, and traveled distance, because these dimensions are extracted from the moves raw points. As this experiment is characterized by the semantic dimensions of the moves, we can also notice in the Table that the measures for raw trajectories do not perform well, as EDR that reached a precision of 0.51 only, but DTWa and UMS that performed well in the previous datasets where the moves raw points were considered, achieved less than 50\% in this experiment.
+\hl{Table {\ref{tab:hermoupolis_measures_map_auc}} presents the experimental results, in which we tested SMSM with several  attributes over the moves, and the best results where achieved with the dimensions transportation mode and activity. Comparing with measures for semantic trajectories, SMSM (MAP=0.95) was around 14\% more precise than LCSS (MAP=0.82), EDR (MAP=0.82) and MSM (MAP=0.81). The other measures for semantic trajectories had worse results, with MAP scores of 0.40 and 0.33 for MSTP and CVTI, respectively. As can be noticed in the results,  SMSM did not perform well for the dimensions duration, average speed, and traveled distance, because these dimensions are extracted from the moves raw points. As this experiment is characterized by the semantic dimensions of the moves, we can also notice that the measures for raw trajectories (EDR (MAP=0.51), DTWa (MAP=0.45), LCSS (MAP=0.44), UMS (MAP=0.29)) that performed well in the previous dataset where the moves raw points were considered, achieved at maximum 51\% of precision in the current experiment.}
 
 
 \begin{table}[h]
@@ -856,7 +821,7 @@ UMS & - & - & 0.29 & 0.33 \\
 \end{table}
 
 %\begin{comment}
-Figure \ref{fig:hermoupolis_precision_recall} (left) shows the precision at recall curves for similarity measures for semantic trajectories, and SMSM is more accurate at each level. EDR, LCSS and MSM had similar and good results despite these measures consider only the stops. All the remaining measures present worse results. Figure \ref{fig:hermoupolis_precision_recall} (right) shows the precision at recall curves for similarity measures for raw trajectories. In this dataset, all similarity measures for raw trajectories had poor results. It happens because each class has several paths for each move and some paths are used by both classes.
+\hl{Figure {\ref{fig:hermoupolis_precision_recall}} (left) shows the precision at recall curves for all similarity measures developed for semantic trajectories. SMSM, using the transportation mode as the semantic dimension of the moves, is more accurate at each level, but EDR, LCSS, and MSM had   good results despite considering only the stops. All the remaining measures present worse results. Figure {\ref{fig:hermoupolis_precision_recall}} (right) shows the precision at recall curves for similarity measures developed for raw trajectories.  In this dataset, all similarity measures developed for raw trajectories had poor results, because each class has several paths for each move, but what distinguishes the moves are not the raw points, but the transportation mode.}
 
 \begin{figure*}[ht!]
 \centerline{
@@ -864,7 +829,7 @@ Figure \ref{fig:hermoupolis_precision_recall} (left) shows the precision at reca
 \includegraphics[width=.45\textwidth]{Images/P_R-chart_Hermoupolis_semantic.png}
 \includegraphics[width=.45\textwidth]{Images/P_R-chart_Hermoupolis_raw.png}
 }
-\caption{(left) Precision at recall results for Hermoupolis semantic trajectories  and (right) raw  trajectories}
+\caption{(left) Precision at recall results for semantic trajectories  and (right) Precision at recall results for raw  trajectories}
 \label{fig:hermoupolis_precision_recall}
 \end{figure*}
 
@@ -877,32 +842,36 @@ Figure \ref{fig:hermoupolis_precision_recall} (left) shows the precision at reca
 
 
 \subsection{Parameter Analysis}\label{sec:sensitivity}
- % in one or more dimensions. In case of (i), as SMSM is the first similarity measure to taking in account both \emph{stops} and \emph{moves}, we consider important for user to define the importance degree of the \emph{moves} in the application. In the case of (ii), the previous MSM similarity measure defines the importance degree of the dimensions by a sensibility analysis made by user, defining how much important is a dimension than other dimensions in the application. In the case of (iii), SMSM, as all other threshold-based similarity measures (LCSS, EDR, MSM, etc), needs the \emph{threshold} values to define if two points match in one or more dimensions. These values are application dependant and must be fine-tuned by user. Besides that, a robust similarity measure should be resilient through those values.
-%The decision of correct weights needs a sensitivity analysis about the problem analyzed and the used data.
-\hl{SMSM has two important groups of parameters: i) the \emph{weights} to define the importance of stops/moves and dimensions; and ii) the \emph{thresholds} to define if two points match.
-With the weights framework, SMSM is flexible to give more or less importance to the stops, moves, and dimensions. %In applications where space is more important, this dimension may have a higher weight. This is the case for applications where the location or the position of the objects matter (e.g. wildlife monitoring, traffic conditions, road network analysis, car sharing, etc). In applications where the location is less important but the semantics of the places is more relevant as the flow of objects that visit specific types of places (e.g. touristic places, japonese restaurants, etc) then the semantic dimension needs a higher weight.
 
-To show the impact of the weight parameters on the similarity analysis, we evaluate the \emph{weight} of the \emph{stops} and the \emph{moves} in all experimental datasets. Table {\ref{tab:sensibility_stopmove}} shows the results for the weight varying from 0 to 1, where 0 means that the moves will be ignored and 1 means that only the moves will be considered.  As can be seen, if the influence of the \emph{moves} is ignored, i.e., weight = 0, SMSM reaches a MAP score of only $0.74$ in the Geolife dataset, $0.49$ in the Taxi dataset, and $0.75$ in the synthetic dataset, indicating a confusion between the similarity of the trajectories that are discriminated by the moves. The best result is achieved when the weight of the \emph{moves} is greather than zero and less or equal than 1, achieving a MAP score of $0.95$ in the Geolife, $0.71$ in the Taxi dataset, and $0.96$ in the synthetic dataset, indicating that the \emph{moves} should be considered in these datasets.}
+\hl{SMSM has two important groups of parameters: i) the \emph{weights} to define the importance of stops/moves and dimensions; and ii) the spatial \emph{threshold} to define if two stops match in order to analyze the moves.
+With the weights framework, SMSM is flexible to give more or less importance to the stops, moves, and dimensions. 
+}
+
+\hl{To show the impact of the weight parameters on the similarity analysis, we evaluate the \emph{weight} of the \emph{stops} and the \emph{moves} in all experimental datasets. Table {\ref{tab:sensibility_stopmove}} shows the results for the weight varying from 0 to 1, where 0 means that the moves will be ignored and 1 means that only the moves will be considered.  As can be seen, if the influence of the \emph{moves} is ignored, i.e., weight = 0, and all importance is given to the moves, SMSM reaches a MAP score of only $0.49$ in the Taxi dataset, $0.72$ in the Geolife dataset, and $0.75$ in the synthetic dataset, indicating a confusion between the similarity of the trajectories that are also discriminated by the moves. The best average result is achieved when the weight of the \emph{moves} is set as 0.5, i.e, half of the weight goes for the stops and the other half to the moves.}
 
 \begin{table}[ht!]
   \scriptsize
   \centering
   \begin{tabular}{|c|c|c|c|c|}
   	\hline
-Stop weight & Move weight & Geolife (MAP) & Taxi (MAP) & Hermoupolis (MAP) \\
+Stop weight & Move weight & Taxi (MAP) & Geolife (MAP) & Hermoupolis (MAP) \\
   	\hline
-0.00 & 1.00 & \textbf{0.95} & 0.66 & \textbf{0.96}\\
-0.25 & 0.75 & \textbf{0.95} & 0.66 & 0.93\\
-0.50 & 0.50 & \textbf{0.95} & 0.70 & 0.93\\
-0.75 & 0.25 & \textbf{0.95} & \textbf{0.71} & 0.89\\
-1.00 & 0.00 & 0.74 & 0.49 & 0.75 \\
+0.00 & 1.00 & 0.66 & 0.93 & 0.67\\
+0.25 & 0.75 & 0.66 & 0.94 & 0.96\\
+\textbf{0.50} & \textbf{0.50} & \textbf{0.70} & \textbf{0.94} & \textbf{0.96}\\
+0.75 & 0.25 & 0.71 & 0.94 & 0.92\\
+1.00 & 0.00 & 0.49 & 0.72 & 0.75 \\
     \hline
   \end{tabular}
   \caption{Impact of the weights over the moves in trajectory similarity}
   \label{tab:sensibility_stopmove}
 \end{table}
 
-\hl{Table {\ref{tab:sensibility_spatial_thresholds}} shows the similarity score of SMSM when the spatial threshold for the stops varies from 50 to 2,000 meters on both datasets. As can be observed, there is not much variation in the results, but this is because the stops are more or less the same in all trajectories. The exception is the synthetic dataset, where a larger spatial threshold ($2,000$ meters) does the retrieval results to reach a lower MAP score ($0.83$). This is because in this dataset there are many more stops than other datasets, with many of them close to other stops.}
+\hl{We also evaluate the behavior of SMSM as the spatial distance threshold of the stops varies, from very low values (50 meters) up to very high values (2,000 meters). Table {\ref{tab:sensibility_spatial_thresholds}} shows the similarity scores. As can be observed, there is not much variation in the results for the Geolife and Taxi dataset, where the stops are far in space. For the synthetic dataset, when the distance threshold increases to 2000 meters, the precision decreases significantly, from 0.96 to 0.69, because several stops have a spatial match.}
+
+\hl{What is important to understand from the stops spatial distance is that in the first step SMSM uses the threshold only to define if the moves will be analyzed. In a second step, even if several stops matched in space because of a large spatial threshold, they can still be distinguished by their semantics.}
+
+
 
 \begin{table}[ht!]
   \scriptsize
@@ -911,31 +880,31 @@ Stop weight & Move weight & Geolife (MAP) & Taxi (MAP) & Hermoupolis (MAP) \\
   	\hline
 Threshold (meters) & Geolife (MAP) & Taxi (MAP) & Hermoupolis (MAP)\\
   	\hline
-50 & \textbf{0.95} & \textbf{0.70} & 0.90\\
-100 & 0.95 & \textbf{0.70}  & 0.90\\
-300 & 0.95 & \textbf{0.70} & \textbf{0.93} \\
-500 & 0.94 & \textbf{0.70} & \textbf{0.93}\\
-1000 & 0.94 & \textbf{0.70} & 0.90\\
-2000 & 0.94 & \textbf{0.70} & 0.83\\
+50 & {0.94} & 0.70 & 0.95\\
+100 & {0.94} & 0.70 & 0.95\\
+\textbf{300} & \textbf{0.94} & \textbf{0.70} & \textbf{0.96} \\
+500 & 0.93 & 0.70 & {0.96}\\
+1000 & 0.93 & 0.70 & 0.93\\
+2000 & 0.92 & 0.68 & 0.69\\
     \hline
   \end{tabular}
   \caption{The MAP score for the spatial threshold variation from 50 up to 2,000 meters}
   \label{tab:sensibility_spatial_thresholds}
 \end{table}
 
-\hl{It is worth mentioning that almost all similarity measures for either raw or semantic trajectories need the definition of thresholds to define how far or how close are two trajectory elements. This is not an exclusive need of SMSM. }
+%\hl{It is worth mentioning that almost all similarity measures for either raw or semantic trajectories need the definition of thresholds to define how far or how close are two trajectory elements. This is not an exclusive need of SMSM. }
 
 \section{Discussion: Applications versus Measures}\label{sec:discussion}
 
 
-\hl{Trajectory data can have several formats. Depending on the format and the application requirements, different trajectory analysis and mining methods will be needed, and so different similarity measures can be applied. For applications that use raw GPS data, as trajectories of taxis, buses, or cars, with the intend to detect, for instance, traffic conditions or traffic jams, the most appropriate measure is UMS. UMS outperformed all measures for raw trajectories, because it is robust to trajectories with different sampling rates or different distances between trajectory points (the case when a trajectory varies the speed in a city), because instead of using a radius around each trajectory point to find the similar trajectories in the spatial neighbourhood, it uses ellipses between every two trajectory points, and the size of the ellipses is dinamically defined based on the distance between two trajectory points. UMS is not so good in high sampled trajectories, where the ellipsis are very small, and in this case DTWa is  a good choice and outperformed UMS in the pedestrian trajectories of Geolife used in our experiments.}
+\hl{Trajectory data can have several formats. Depending on the format and the application requirements, different trajectory analysis and mining methods will be needed, and so different similarity measures can be applied. For applications that use raw GPS data, as trajectories of taxis, buses, or cars, with the intend to detect, for instance, traffic conditions or traffic jams, the most appropriate measures are UMS and DTWa. UMS is robust for trajectories with different sampling rates or different distances between trajectory points (the case when a trajectory varies the speed in a city), because instead of using a radius around each trajectory point to find the similar trajectories in the spatial neighbourhood, it uses ellipses between every two trajectory points, and the size of the ellipses is dinamically defined based on the distance between two trajectory points. UMS is not the best measure in highly sampled trajectories, where the ellipses are very small, and in this case DTWa is  a good choice.}
 
 \hl{For applications that use GPS trajectories annotated only with stops or where the moves are not important, or trajectories extracted from social media data, which are more sparse and that do not have moves, the best measure is MSM. MSM is useful in applications where one is interested in finding users that visit the same places, at similar times, but where the order of the visits is not important. In tourism applications where the analyst wants to find similar tourist trajectories to either predict or to recommend the next place to be visited, MSM is not appropriate because it ignores the order. When the sequence of the visited places is important, even when the details about the moves are not, SMSM is more appropriate, because it considers the order of the stops.}
 
-\hl{For dealing with GPS trajectories enriched with both stops and moves, and the spatial, temporal or semantic characteristcs of both stops and moves are important, SMSM is the most appropriate measure. In a tourism application, for instance, where the tourist has a time constraint to visit a city, a sequence of visits can be recommended based on the similarity analysis of other tourists that visited the same city. SMSM is also the most appropriate measure in applications that need the most similar paths or popular routes between stops.}
+\hl{For dealing with GPS trajectories enriched with both stops and moves, and the spatial, temporal or semantic characteristcs of both stops and moves are important, SMSM is the most appropriate measure. In a tourism application, for instance, where the tourist has a time constraint to visit a city, a sequence of visits can be recommended based on the similarity analysis of other tourists that visited the same city. SMSM is also robust in applications that focus on the most similar paths or popular routes between stops.}
 %but considering the visited places and the moves between the stops, in order to estimate the duration of the different movements between the stops. SMSM is the best measure for traffic analysis where the objective is to compare the traffic along  different paths that connect two regions in a city.}
 
-\hl{It is important to emphasize that in applications where the spatial movement of the moves is important, i.e., the raw trajectory points, SMSM can use the UMS for the move similarity when trajectories have low sampling rate and DTW when trajectories have high sampling rate.}
+\hl{It is important to emphasize that in applications where the spatial movement of the moves is important, i.e., the raw trajectory points, SMSM can use UMS for the move similarity when trajectories have low sampling rate and DTW when trajectories have high sampling rate.}
 
 %This study was financed in part by the Coordenação de Aperfeiçoamento de Pessoal de Nível Superior - Brasil (CAPES) - Finance Code 001
 
@@ -946,7 +915,7 @@ SMSM supports the definition of weights for stops, moves and dimensions, so the 
 
 We performed experiments using real \hl{and synthetic} data of distinct contexts, including car trajectories and pedestrian trajectories. By evaluating SMSM with an information retrieval approach, we show that SMSM was more accurate than other measures developed either for raw or semantic trajectories.
 
-SMSM requires a full spatial match between the start and end stop of two movement elements to evaluate the move. In future works we will study an extension of SMSM to evaluate the move in cases where the end stops of two movement elements do not have a match.
+SMSM requires a full spatial match between the start and end stop of two movement elements to evaluate the move. In future works we will study an extension of SMSM to evaluate the move in cases where the final stops of two movement elements do not have a match.
 
 \bibliographystyle{tfv}
 \bibliography{sbc-template}
